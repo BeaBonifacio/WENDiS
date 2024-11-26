@@ -8,24 +8,31 @@
 </head>
 <body>
   <div class="container">
-    <h1>WENDiS</h1>
-    <p>Weather Emergency Notification Display System</p>
-    <div class="weather-info">
-      <input type="text" id="city" placeholder="Enter city name">
-      <div class="button-container">
-        <button onclick="getWeather()">Get Weather</button>
-        <button onclick="pinCity()" id="pinButton" disabled>Pin</button>
-      </div>
+    <h1>Weather Emergency Notification Display System</h1>
 
-      <div id="alert-display">
-        <div class="led" id="led"></div>
-        <p id="weather-status">Awaiting weather data...</p>
+    <!-- LED Lights Legend -->
+    <div class="led-legends">
+      <div class="led sunny"></div><span>Sunny</span>
+      <div class="led rainy"></div><span>Rainy</span>
+      <div class="led stormy"></div><span>Stormy</span>
+      <div class="led gray"></div><span>Default</span> <!-- Gray LED added -->
+    </div>
+
+    <div class="weather-info">
+      <input type="text" id="city-name" placeholder="Enter city name" />
+      <div class="button-container">
+        <button id="get-weather-btn">Get Weather</button>
+        <button id="pin-btn">Pin</button>
       </div>
     </div>
 
+    <div id="alert-display">
+      <div class="led"></div>
+      <div id="weather-status"></div>
+    </div>
+
     <div class="pinned-cities">
-      <h3>Pinned Cities</h3>
-      <ul id="pinnedCitiesList"></ul>
+      <ul id="pinned-cities-list"></ul>
     </div>
   </div>
 

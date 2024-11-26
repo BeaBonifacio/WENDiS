@@ -12,11 +12,20 @@
     <p>Weather Emergency Notification Display System</p>
     <div class="weather-info">
       <input type="text" id="city" placeholder="Enter city name">
-      <button onclick="getWeather()">Get Weather</button>
+      <div class="button-container">
+        <button onclick="getWeather()">Get Weather</button>
+        <button onclick="pinCity()" id="pinButton" disabled>Pin</button>
+      </div>
+
       <div id="alert-display">
         <div class="led" id="led"></div>
         <p id="weather-status">Awaiting weather data...</p>
       </div>
+    </div>
+
+    <div class="pinned-cities">
+      <h3>Pinned Cities</h3>
+      <ul id="pinnedCitiesList"></ul>
     </div>
   </div>
 

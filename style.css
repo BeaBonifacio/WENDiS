@@ -135,6 +135,7 @@ button:hover {
   border-radius: 5px;
 }
 
+
 .pinned-cities li .remove-btn:hover {
   background-color: darkred;
 }

@@ -4,36 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WENDiS - Weather Emergency Notification Display System</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
     <h1>WENDiS</h1>
-    <h3>Weather Emergency Notification Display System</h3>
+    <p>Weather Emergency Notification Display System</p>
 
     <!-- LED Lights Legend -->
     <div class="led-legends">
       <div class="led sunny"></div><span>Sunny</span>
       <div class="led rainy"></div><span>Rainy</span>
       <div class="led stormy"></div><span>Stormy</span>
-      <div class="led gray"></div><span>Default</span> <!-- Gray LED added -->
+      <div class="led gray"></div><span>Default</span>
     </div>
 
     <div class="weather-info">
-      <input type="text" id="city-name" placeholder="Enter city name" />
+      <input type="text" id="city" placeholder="Enter city name">
       <div class="button-container">
-        <button id="get-weather-btn">Get Weather</button>
-        <button id="pin-btn">Pin</button>
+        <button onclick="getWeather()">Get Weather</button>
+        <button onclick="pinCity()" id="pinButton" disabled>Pin</button>
+      </div>
+
+      <div id="alert-display">
+        <div class="led" id="led"></div>
+        <p id="weather-status">Awaiting weather data...</p>
       </div>
     </div>
 
-    <div id="alert-display">
-      <div class="led"></div>
-      <div id="weather-status"></div>
-    </div>
-
     <div class="pinned-cities">
-      <ul id="pinned-cities-list"></ul>
+      <h3>Pinned Cities</h3>
+      <ul id="pinnedCitiesList"></ul>
     </div>
   </div>
 

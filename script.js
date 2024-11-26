@@ -1,120 +1,112 @@
-const apiKey = '28f03a7d662e4eaf58f85448481bd955'; // Your API key
-const apiUrl = 'https://api.openweathermap.org/data/2.5/weather'; // OpenWeather API URL
-
-document.getElementById('get-weather-btn').addEventListener('click', fetchWeather);
-document.getElementById('pin-btn').addEventListener('click', pinCity);
-
+const apiKey = '28f03a7d662e4eaf58f85448481bd955'; // Your OpenWeather API Key
 let pinnedCities = [];
 
-// Fetch weather based on city name
-function fetchWeather() {
-  const cityName = document.getElementById('city-name').value.trim();
+async function getWeather() {
+  const city = document.getElementById('city').value;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-  if (!cityName) {
-    alert('Please enter a city name.');
-    return;
-  }
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
 
-  fetch(`${apiUrl}?q=${cityName}&appid=${apiKey}&units=metric`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.cod === '404') {
-        alert('City not found!');
+    if (data.cod === 200) {
+      const weather = data.weather[0].main.toLowerCase();
+      const statusElement = document.getElementById('weather-status');
+      const ledElement = document.getElementById('led');
+      statusElement.textContent = `Weather in ${city}: ${data.weather[0].description}`;
+
+      // Update LED light based on weather
+      ledElement.className = 'led'; // Reset LED class
+      if (weather.includes('clear')) {
+        ledElement.classList.add('sunny');
+      } else if (weather.includes('rain')) {
+        ledElement.classList.add('rainy');
+      } else if (weather.includes('storm')) {
+        ledElement.classList.add('stormy');
       } else {
-        updateWeatherDisplay(data);
+        ledElement.classList.add('gray');
+        statusElement.textContent += ' (No alert)';
       }
-    })
-    .catch(error => {
-      console.error('Error fetching weather:', error);
-      alert('Failed to fetch weather data. Please try again.');
-    });
-}
 
-// Update the displayed weather and LED color based on the status
-function updateWeatherDisplay(data) {
-  const weatherStatus = data.weather[0].main;
-  const temperature = data.main.temp;
-  const humidity = data.main.humidity;
-
-  document.getElementById('weather-status').textContent = `${weatherStatus} | Temp: ${temperature}°C | Humidity: ${humidity}%`;
-
-  // Set LED color based on weather condition
-  const led = document.querySelector('#alert-display .led');
-  const weatherLed = getWeatherLed(weatherStatus);
-
-  // Change the LED color and the status display
-  led.style.backgroundColor = weatherLed.color;
-  led.style.boxShadow = `0 0 20px ${weatherLed.color}`;
-}
-
-// Determine the color of the LED based on weather status
-function getWeatherLed(weatherStatus) {
-  switch (weatherStatus.toLowerCase()) {
-    case 'clear':
-      return { color: 'yellow' };
-    case 'rain':
-      return { color: 'blue' };
-    case 'storm':
-      return { color: 'red' };
-    default:
-      return { color: 'gray' }; // Default gray for other conditions
+      // Enable pin button after successful weather fetch
+      document.getElementById('pinButton').disabled = false;
+    } else {
+      alert('City not found. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    alert('An error occurred. Please try again later.');
   }
 }
 
-// Pin the city with weather status
 function pinCity() {
-  const cityName = document.getElementById('city-name').value.trim();
+  const city = document.getElementById('city').value;
+  const weatherStatus = document.getElementById('weather-status').textContent;
 
-  if (!cityName) {
-    alert('Please enter a city name to pin.');
-    return;
+  // Determine the LED color based on weather status
+  let ledClass = '';
+  if (weatherStatus.includes('clear')) {
+    ledClass = 'sunny';
+  } else if (weatherStatus.includes('rain')) {
+    ledClass = 'rainy';
+  } else if (weatherStatus.includes('storm')) {
+    ledClass = 'stormy';
+  } else {
+    ledClass = 'gray';
   }
 
-  const existingCity = pinnedCities.find(city => city.name.toLowerCase() === cityName.toLowerCase());
+  // Create a new pinned city object with LED class
+  const cityData = { city, weatherStatus, ledClass };
 
-  if (existingCity) {
-    alert('This city is already pinned.');
-    return;
-  }
+  // Add the pinned city to the array
+  pinnedCities.push(cityData);
 
-  fetch(`${apiUrl}?q=${cityName}&appid=${apiKey}&units=metric`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.cod === '404') {
-        alert('City not found!');
-      } else {
-        pinnedCities.push(data);
-        displayPinnedCities();
-      }
-    })
-    .catch(error => {
-      console.error('Error pinning city:', error);
-      alert('Failed to fetch data for pinned city.');
-    });
+  // Display pinned cities
+  updatePinnedCities();
+
+  // Clear the input field and reset the pin button
+  document.getElementById('city').value = '';
+  document.getElementById('pinButton').disabled = true;
+}
+
+function updatePinnedCities() {
+  const pinnedCitiesList = document.getElementById('pinnedCitiesList');
+  pinnedCitiesList.innerHTML = ''; // Clear current list
+
+  pinnedCities.forEach((city, index) => {
+    const li = document.createElement('li');
+    
+    // Create LED for pinned city
+    const led = document.createElement('div');
+    led.className = `led ${city.ledClass}`;
+
+    // Create city name and weather status
+    const cityName = document.createElement('div');
+    cityName.className = 'city-name';
+    cityName.textContent = city.city.toUpperCase();
+
+    const weatherStatus = document.createElement('div');
+    weatherStatus.className = 'weather-status';
+    weatherStatus.textContent = city.weatherStatus;
+
+    // Create remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.className = 'remove-btn';
+    removeBtn.onclick = () => removeCity(index);
+
+    // Add LED, city name, weather status, and remove button to the list item
+    li.appendChild(led);
+    li.appendChild(cityName);
+    li.appendChild(weatherStatus);
+    li.appendChild(removeBtn);
+    
+    pinnedCitiesList.appendChild(li);
+  });
 }
 
 // Remove a pinned city
 function removeCity(index) {
-  // Remove city from the pinnedCities array
   pinnedCities.splice(index, 1);
-  displayPinnedCities();  // Re-render the list of pinned cities
-}
-
-// Display pinned cities and their weather info
-function displayPinnedCities() {
-  const list = document.getElementById('pinned-cities-list');
-  list.innerHTML = '';
-
-  pinnedCities.forEach((city, index) => {
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `
-      <div class="city-name">${city.name}</div>
-      <div class="weather-status">${city.weather[0].main}</div>
-      <div class="temperature">Temp: ${city.main.temp}°C</div>
-      <div class="humidity">Humidity: ${city.main.humidity}%</div>
-      <div class="led" style="background-color: ${getWeatherLed(city.weather[0].main).color};"></div>
-      <button onclick="removeCity(${index})" class="remove-btn">Remove</button> <!-- Remove button -->
-    `;
-    list.appendChild(listItem);
-  });
+  updatePinnedCities();
 }

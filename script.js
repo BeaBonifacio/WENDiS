@@ -95,7 +95,6 @@ function updatePinnedCities() {
     removeBtn.className = 'remove-btn';
     removeBtn.onclick = () => removeCity(index);
 
-    // Add LED, city name, weather status, and remove button to the list item
     li.appendChild(led);
     li.appendChild(cityName);
     li.appendChild(weatherStatus);
@@ -105,7 +104,6 @@ function updatePinnedCities() {
   });
 }
 
-// Remove a pinned city
 function removeCity(index) {
   pinnedCities.splice(index, 1);
   updatePinnedCities();

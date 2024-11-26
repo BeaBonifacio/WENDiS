@@ -1,5 +1,5 @@
 body {
-  font-family: Romans, sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
@@ -26,15 +26,22 @@ input {
   padding: 10px;
   border: none;
   border-radius: 5px;
+  width: 250px;
+}
+
+.button-container {
+  margin-top: 10px;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 8px 16px;
   background: #ffa500;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 14px;
+  margin: 5px;
 }
 
 button:hover {
@@ -43,15 +50,20 @@ button:hover {
 
 #alert-display {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Center LED and status vertically and horizontally */
+  justify-content: center;
 }
 
 .led {
   width: 30px;
   height: 30px;
-  margin: 10px auto;
+  margin-right: 10px;
   background: gray;
   border-radius: 50%;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;  /* Space between LED and weather status */
 }
 
 .led.sunny {
@@ -71,4 +83,44 @@ button:hover {
 
 #weather-status {
   font-size: 1.2rem;
+}
+
+.pinned-cities {
+  margin-top: 20px;
+}
+
+.pinned-cities ul {
+  list-style: none;
+  padding: 0;
+}
+
+.pinned-cities li {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-start; /* Align items to the start of the container */
+  align-items: center; /* Vertically align items */
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 50px;
+  max-width: 300px;
+  margin: 5px auto;
+}
+
+.pinned-cities li .city-name {
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 10px; /* Space between LED and city name */
+}
+
+.pinned-cities li .weather-status {
+  font-size: 12px;
+}
+
+.pinned-cities li .temperature {
+  font-size: 12px;
+}
+
+.pinned-cities li .humidity {
+  font-size: 12px;
 }

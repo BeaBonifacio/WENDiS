@@ -18,6 +18,51 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+h1 {
+  margin-bottom: 20px;
+}
+
+.led-legends {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.led-legends .led {
+  width: 30px;  /* Reduced size */
+  height: 30px; /* Reduced size */
+  border-radius: 50%;
+  margin-right: 5px;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
+}
+
+.led.sunny {
+  background: yellow;
+  box-shadow: 0 0 20px yellow;
+}
+
+.led.rainy {
+  background: blue;
+  box-shadow: 0 0 20px blue;
+}
+
+.led.stormy {
+  background: red;
+  box-shadow: 0 0 20px red;
+}
+
+.led.gray {
+  background: gray;
+  box-shadow: 0 0 10px gray; /* Gray LED */
+}
+
+.led-legends span {
+  font-size: 12px; /* Smaller font size */
+  color: white;
+  font-weight: bold;
+}
+
 .weather-info {
   margin-top: 20px;
 }
@@ -52,7 +97,7 @@ button:hover {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;  /* Center LED and status vertically and horizontally */
+  align-items: center;
   justify-content: center;
 }
 
@@ -63,22 +108,7 @@ button:hover {
   background: gray;
   border-radius: 50%;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
-  margin-bottom: 10px;  /* Space between LED and weather status */
-}
-
-.led.sunny {
-  background: yellow;
-  box-shadow: 0 0 20px yellow;
-}
-
-.led.rainy {
-  background: blue;
-  box-shadow: 0 0 20px blue;
-}
-
-.led.stormy {
-  background: red;
-  box-shadow: 0 0 20px red;
+  margin-bottom: 10px;
 }
 
 #weather-status {
@@ -97,8 +127,8 @@ button:hover {
 .pinned-cities li {
   margin-bottom: 10px;
   display: flex;
-  justify-content: flex-start; /* Align items to the start of the container */
-  align-items: center; /* Vertically align items */
+  justify-content: flex-start;
+  align-items: center;
   background-color: rgba(255, 255, 255, 0.1);
   padding: 15px;
   border-radius: 50px;
@@ -110,7 +140,7 @@ button:hover {
   font-size: 18px;
   font-weight: bold;
   text-transform: uppercase;
-  margin-right: 10px; /* Space between LED and city name */
+  margin-right: 10px;
 }
 
 .pinned-cities li .weather-status {
@@ -123,4 +153,18 @@ button:hover {
 
 .pinned-cities li .humidity {
   font-size: 12px;
+}
+.remove-btn {
+  padding: 5px 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.remove-btn:hover {
+  background-color: darkred;
 }
